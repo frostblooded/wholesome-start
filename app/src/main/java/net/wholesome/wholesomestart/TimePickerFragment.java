@@ -24,6 +24,6 @@ public class TimePickerFragment extends DialogFragment
     public void onTimeSet(TimePicker timePicker, int timeHour, int timeMinute) {
         GeneralHelpers.saveTime(getActivity(), timeHour, timeMinute);
         GeneralHelpers.Log("Saving time " + timeHour + ":" + timeMinute);
-        GeneralHelpers.setAlarm(getActivity(), timeHour, timeMinute);
+        AlarmCreator.startAlarm(getActivity(), timeHour, timeMinute);
     }
 }

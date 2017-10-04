@@ -56,33 +56,6 @@ public class GeneralHelpers {
         return sp.getInt(TIME_MINUTE_SHARED_PREF, 0);
     }
 
-    public static void setAlarm(Context context, int timeHour, int timeMinute) {
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-
-        Calendar calendar = getTimeForAlarm(timeHour, timeMinute);
-        GeneralHelpers.Log("Setting alarm for " + calendar.toString());
-        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, pendingIntent);
-    }
-
-    private static Calendar getTimeForAlarm(int timeHour, int timeMinute) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, timeHour);
-        calendar.set(Calendar.MINUTE, timeMinute);
-        calendar.set(Calendar.SECOND, 0);
-
-        // If this hour has passed for today, make it next day
-        if(calendar.getTimeInMillis() < System.currentTimeMillis()) {
-            calendar.add(Calendar.DAY_OF_YEAR, 1);
-            GeneralHelpers.Log("Time has already passed. Making it next day.");
-        }
-
-        return calendar;
-    }
-
     public static void Log(String message) {
         Log.i(LOG_TAG, message);
     }

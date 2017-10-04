@@ -17,5 +17,10 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         NotificationCreator.createNewNotification(context);
+
+        // If alarm was retrying, set the next one for the right time
+        if(intent.getBooleanExtra(AlarmCreator.RETRYING_KEY, false)) {
+            AlarmCreator.startAlarm(context, false);
+        }
     }
 }

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Debug;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 
@@ -33,7 +34,13 @@ class NotificationCreator {
     private static int PENDING_INTENT_ID = 0;
 
     public static void createNewNotification(final Context context) {
-        NetworkHelpers.get(WHOLESOME_TOP_DAILY_URL, new NetworkCallback() {
+        NetworkHelpers.get(WHOLESOME_TOP_DAILY_URL, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                GeneralHelpers.Log("Failed getting /r/wholesomememes posts: " + e.getMessage());
+                AlarmCreator.startAlarm(context, true);
+            }
+
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 try {
@@ -66,7 +73,13 @@ class NotificationCreator {
     }
 
     private static void getThumbnail(final Context context, final String title, final String postUrl, String imgUrl) {
-        NetworkHelpers.get(imgUrl, new NetworkCallback() {
+        NetworkHelpers.get(imgUrl, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                GeneralHelpers.Log("Failed getting thumbnail: " + e.getMessage());
+                AlarmCreator.startAlarm(context, true);
+            }
+
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 InputStream imageStream = response.body().byteStream();
