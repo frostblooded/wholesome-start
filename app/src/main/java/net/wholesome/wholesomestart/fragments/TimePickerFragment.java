@@ -1,4 +1,4 @@
-package fragments;
+package net.wholesome.wholesomestart.fragments;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -7,23 +7,22 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.widget.TimePicker;
 
-import java.text.DateFormat;
-import java.util.Calendar;
+import net.wholesome.wholesomestart.GeneralHelpers;
 
 public class TimePickerFragment extends DialogFragment
     implements TimePickerDialog.OnTimeSetListener {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final Calendar c = Calendar.getInstance();
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-        int minute = c.get(Calendar.MINUTE);
+        int savedTimeHour = GeneralHelpers.getTimeHour(getActivity());
+        int savedTimeMinute = GeneralHelpers.getTimeMinute(getActivity());
 
-        return new TimePickerDialog(getActivity(), this, hour, minute, false);
+        return new TimePickerDialog(getActivity(), this, savedTimeHour, savedTimeMinute, false);
     }
 
     @Override
     public void onTimeSet(TimePicker timePicker, int i, int i1) {
-        // Save selected time
+        GeneralHelpers.saveTime(getActivity(), i, i1);
+        GeneralHelpers.Log("Saving time " + i + ":" + i1);
     }
 }
