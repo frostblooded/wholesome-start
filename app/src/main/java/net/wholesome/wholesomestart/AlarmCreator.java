@@ -49,8 +49,8 @@ public class AlarmCreator {
         calendar.setTimeInMillis(System.currentTimeMillis());
 
         if(retrying) {
-            calendar.add(Calendar.SECOND, MINUTES_BEFORE_RETRY);
-            GeneralHelpers.Log("Waiting " + MINUTES_BEFORE_RETRY + " seconds before retrying.");
+            calendar.add(Calendar.MINUTE, MINUTES_BEFORE_RETRY);
+            GeneralHelpers.Log("Waiting " + MINUTES_BEFORE_RETRY + " minutes before retrying.");
             return calendar;
         }
 
