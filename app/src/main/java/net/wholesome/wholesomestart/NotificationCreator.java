@@ -1,7 +1,10 @@
 package net.wholesome.wholesomestart;
 
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 
@@ -20,7 +23,9 @@ import okhttp3.Response;
 
 class NotificationCreator {
     private static String WHOLESOME_TOP_DAILY_URL = "https://nm.reddit.com/r/wholesomememes/top.json?sort=top&t=day";
+    private static String REDDIT_BASE_URL = "https://www.reddit.com";
     private static int NOTIFICATION_ID = 1;
+    private static int PENDING_INTENT_ID = 0;
 
     public static void createNewNotification(final Context context) {
         NetworkHelpers.get(WHOLESOME_TOP_DAILY_URL, new Callback() {
@@ -34,7 +39,7 @@ class NotificationCreator {
                 try {
                     JSONObject jsonResponse = new JSONObject(response.body().string());
                     JSONObject responseData = jsonResponse.getJSONObject("data");
-                    NotificationCreator.makeNotification(context, responseData.getJSONArray("children"));
+                    NotificationCreator.prepareForNotification(context, responseData.getJSONArray("children"));
                 } catch (JSONException e) {
                     GeneralHelpers.Log("JSON parsing the /r/wholesomememes response failed: " + e.getMessage());
                     e.printStackTrace();
@@ -43,24 +48,39 @@ class NotificationCreator {
         });
     }
 
-    private static void makeNotification(Context context, JSONArray posts) {
+    private static void prepareForNotification(Context context, JSONArray posts) {
         JSONObject post = NotificationCreator.choosePost(posts);
 
         try {
-            GeneralHelpers.Log("Chosen post: " + post.getString("title"));
-            NotificationCompat.Builder notificationBuilder =
-                    new NotificationCompat.Builder(context)
-                            .setSmallIcon(R.mipmap.ic_launcher)
-                            .setContentTitle("Here is today's post!")
-                            .setContentText(post.getString("title"));
+            String postTitle = post.getString("title");
+            String url = post.getString("permalink");
+            String fullUrl = REDDIT_BASE_URL + url;
 
-            NotificationManager notificationManager = (NotificationManager) context
-                    .getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
+            GeneralHelpers.Log("Chosen post: " + postTitle);
+            NotificationCreator.makeNotification(context, postTitle, fullUrl);
         } catch (JSONException e) {
             GeneralHelpers.Log("Failed to get title of post: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private static void makeNotification(Context context, String title, String url) {
+        //Set intent for when notification is clicked
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, PENDING_INTENT_ID,
+                intent, 0);
+
+        NotificationCompat.Builder notificationBuilder =
+                new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle("Here is today's post!")
+                        .setContentText(title)
+                        .setAutoCancel(true)
+                        .setContentIntent(pendingIntent);
+        
+        NotificationManager notificationManager = (NotificationManager) context
+                .getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
     }
 
     @Nullable
