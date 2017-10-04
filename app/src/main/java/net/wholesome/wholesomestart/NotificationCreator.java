@@ -1,5 +1,6 @@
 package net.wholesome.wholesomestart;
 
+import android.accounts.NetworkErrorException;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -19,6 +20,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.UnknownHostException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -31,12 +33,7 @@ class NotificationCreator {
     private static int PENDING_INTENT_ID = 0;
 
     public static void createNewNotification(final Context context) {
-        NetworkHelpers.get(WHOLESOME_TOP_DAILY_URL, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                GeneralHelpers.Log("Failed to get /r/wholesomememes posts: " + e.getMessage());
-            }
-
+        NetworkHelpers.get(WHOLESOME_TOP_DAILY_URL, new NetworkCallback() {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 try {
@@ -69,12 +66,7 @@ class NotificationCreator {
     }
 
     private static void getThumbnail(final Context context, final String title, final String postUrl, String imgUrl) {
-        NetworkHelpers.get(imgUrl, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                GeneralHelpers.Log("Failed to get thumbnail for notification: " + e.getMessage());
-            }
-
+        NetworkHelpers.get(imgUrl, new NetworkCallback() {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 InputStream imageStream = response.body().byteStream();
@@ -89,12 +81,14 @@ class NotificationCreator {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         PendingIntent pendingIntent = PendingIntent.getActivity(context, PENDING_INTENT_ID,
                 intent, 0);
+        String name = GeneralHelpers.getName(context);
+        String contentTitle = "Hello, " + name + "! Here is today's post!";
 
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_stat_name)
                         .setLargeIcon(image)
-                        .setContentTitle("Here is today's post!")
+                        .setContentTitle(contentTitle)
                         .setContentText(title)
                         .setAutoCancel(true)
                         .setContentIntent(pendingIntent);
