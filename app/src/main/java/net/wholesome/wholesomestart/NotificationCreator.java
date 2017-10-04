@@ -92,7 +92,7 @@ class NotificationCreator {
 
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setSmallIcon(R.drawable.ic_stat_name)
                         .setLargeIcon(image)
                         .setContentTitle("Here is today's post!")
                         .setContentText(title)
