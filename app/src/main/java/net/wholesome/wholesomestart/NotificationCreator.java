@@ -4,6 +4,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
@@ -16,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -55,16 +58,33 @@ class NotificationCreator {
             String postTitle = post.getString("title");
             String url = post.getString("permalink");
             String fullUrl = REDDIT_BASE_URL + url;
+            String imgUrl = post.getString("thumbnail");
 
             GeneralHelpers.Log("Chosen post: " + postTitle);
-            NotificationCreator.makeNotification(context, postTitle, fullUrl);
+            NotificationCreator.getThumbnail(context, postTitle, fullUrl, imgUrl);
         } catch (JSONException e) {
             GeneralHelpers.Log("Failed to get title of post: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    private static void makeNotification(Context context, String title, String url) {
+    private static void getThumbnail(final Context context, final String title, final String postUrl, String imgUrl) {
+        NetworkHelpers.get(imgUrl, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                GeneralHelpers.Log("Failed to get thumbnail for notification: " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                InputStream imageStream = response.body().byteStream();
+                Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
+                NotificationCreator.makeNotification(context, title, postUrl, bitmap);
+            }
+        });
+    }
+
+    private static void makeNotification(Context context, String title, String url, Bitmap image) {
         //Set intent for when notification is clicked
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         PendingIntent pendingIntent = PendingIntent.getActivity(context, PENDING_INTENT_ID,
@@ -73,11 +93,12 @@ class NotificationCreator {
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.mipmap.ic_launcher)
+                        .setLargeIcon(image)
                         .setContentTitle("Here is today's post!")
                         .setContentText(title)
                         .setAutoCancel(true)
                         .setContentIntent(pendingIntent);
-        
+
         NotificationManager notificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
