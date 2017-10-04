@@ -1,4 +1,4 @@
-package net.wholesome.wholesomestart.fragments;
+package net.wholesome.wholesomestart;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.widget.TimePicker;
-
-import net.wholesome.wholesomestart.GeneralHelpers;
 
 public class TimePickerFragment extends DialogFragment
     implements TimePickerDialog.OnTimeSetListener {
@@ -21,8 +19,9 @@ public class TimePickerFragment extends DialogFragment
     }
 
     @Override
-    public void onTimeSet(TimePicker timePicker, int i, int i1) {
-        GeneralHelpers.saveTime(getActivity(), i, i1);
-        GeneralHelpers.Log("Saving time " + i + ":" + i1);
+    public void onTimeSet(TimePicker timePicker, int timeHour, int timeMinute) {
+        GeneralHelpers.saveTime(getActivity(), timeHour, timeMinute);
+        GeneralHelpers.Log("Saving time " + timeHour + ":" + timeMinute);
+        GeneralHelpers.setAlarm(getActivity(), timeHour, timeMinute);
     }
 }

@@ -1,20 +1,12 @@
-package net.wholesome.wholesomestart.activities;
+package net.wholesome.wholesomestart;
 
-import android.app.Activity;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.EditText;
-
-import net.wholesome.wholesomestart.GeneralHelpers;
-import net.wholesome.wholesomestart.R;
-
-import net.wholesome.wholesomestart.fragments.TimePickerFragment;
 
 public class SettingsActivity extends AppCompatActivity {
 
