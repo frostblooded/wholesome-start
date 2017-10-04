@@ -8,11 +8,14 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
+import net.wholesome.wholesomestart.helpers.GeneralHelpers;
+
 public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        NotificationCreator.createNewNotification(this);
         setContentView(R.layout.activity_settings);
         setUpNameInput();
     }

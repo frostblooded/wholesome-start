@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.widget.TimePicker;
 
+import net.wholesome.wholesomestart.helpers.GeneralHelpers;
+
 public class TimePickerFragment extends DialogFragment
     implements TimePickerDialog.OnTimeSetListener {
     @NonNull
