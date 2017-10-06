@@ -91,8 +91,7 @@ public class NotificationCreator {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         PendingIntent pendingIntent = PendingIntent.getActivity(context, PENDING_INTENT_ID,
                 intent, 0);
-        String name = GeneralHelpers.getName(context);
-        String contentTitle = "Hello, " + name + "! Here is today's post!";
+        String contentTitle = NotificationCreator.generateContentTitle(context);
 
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(context)
@@ -106,6 +105,17 @@ public class NotificationCreator {
         NotificationManager notificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
+    }
+
+    private static String generateContentTitle(Context context) {
+        String contentTitle = "Here is today's post!";
+        String name = GeneralHelpers.getName(context);
+
+        if(name != null) {
+            contentTitle = "Hello, " + name + "! " + contentTitle;
+        }
+
+        return contentTitle;
     }
 
     @Nullable
