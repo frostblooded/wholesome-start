@@ -17,33 +17,12 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         AlarmCreator.startAlarm(this, false);
         setContentView(R.layout.activity_settings);
-        setUpNameInput();
     }
 
     @Override
     protected void onStart() {
         NotificationCreator.createNewNotification(this);
         super.onStart();
-    }
-
-    private void setUpNameInput() {
-        EditText nameInput = (EditText)findViewById(R.id.nameInput);
-        String name = GeneralHelpers.getName(this);
-        nameInput.setText(name);
-
-        nameInput.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                GeneralHelpers.saveName(getApplicationContext(), charSequence.toString());
-                GeneralHelpers.Log("Saving name: " + charSequence.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) { }
-        });
     }
 
     public void showTimePickerDialog(View v) {
