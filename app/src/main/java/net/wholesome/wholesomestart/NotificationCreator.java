@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 
+import net.wholesome.wholesomestart.database.DatabaseConnection;
 import net.wholesome.wholesomestart.helpers.GeneralHelpers;
 import net.wholesome.wholesomestart.helpers.NetworkHelpers;
 
@@ -55,6 +56,7 @@ public class NotificationCreator {
 
     private static void prepareForNotification(Context context, JSONArray posts) {
         JSONObject post = NotificationCreator.choosePost(posts);
+        DatabaseConnection.getConnection(context).savePreviousPost(post);
 
         try {
             GeneralHelpers.Log("Chosen post: " + post.toString(2));
