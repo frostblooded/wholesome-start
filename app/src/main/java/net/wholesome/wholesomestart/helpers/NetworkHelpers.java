@@ -10,12 +10,11 @@ import okhttp3.Response;
 public class NetworkHelpers {
     private static OkHttpClient client = new OkHttpClient();
 
-    public static String get(String url, Callback callback) {
+    public static void get(String url, Callback callback) {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
 
         client.newCall(request).enqueue(callback);
-        return null;
     }
 }

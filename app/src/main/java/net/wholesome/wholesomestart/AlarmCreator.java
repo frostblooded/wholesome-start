@@ -15,21 +15,14 @@ public class AlarmCreator {
     private static int MINUTES_BEFORE_RETRY = 5;
     public static String RETRYING_KEY = "retrying";
 
-    public static void startAlarm(Context context, boolean retrying) {
-        int timeHour = GeneralHelpers.getTimeHour(context);
-        int timeMinute = GeneralHelpers.getTimeMinute(context);
-
-        startAlarm(context, timeHour, timeMinute, retrying);
-    }
-
-    public static void startAlarm(Context context, int timeHour, int timeMinute) {
-        startAlarm(context, timeHour, timeMinute, false);
+    public static void startAlarm(Context context) {
+        startAlarm(context, false);
     }
 
     // The retrying parameter shows if the alarm is being tried again.
     // This may happen if the alarm has already triggered, but there was no internet connection.
     // In that case, the alarm is going to be tried again after a short delay.
-    public static void startAlarm(Context context, int timeHour, int timeMinute, boolean retrying) {
+    public static void startAlarm(Context context, boolean retrying) {
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
 
@@ -39,13 +32,13 @@ public class AlarmCreator {
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 
-        Calendar calendar = getTimeForAlarm(timeHour, timeMinute, retrying);
+        Calendar calendar = getTimeForAlarm(context, retrying);
         GeneralHelpers.Log("Setting alarm for " + calendar.getTime());
         am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, pendingIntent);
     }
 
-    private static Calendar getTimeForAlarm(int timeHour, int timeMinute, boolean retrying) {
+    private static Calendar getTimeForAlarm(Context context, boolean retrying) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
 
@@ -54,6 +47,9 @@ public class AlarmCreator {
             GeneralHelpers.Log("Waiting " + MINUTES_BEFORE_RETRY + " minutes before retrying.");
             return calendar;
         }
+
+        int timeHour = GeneralHelpers.getTimeHour(context);
+        int timeMinute = GeneralHelpers.getTimeMinute(context);
 
         calendar.set(Calendar.HOUR_OF_DAY, timeHour);
         calendar.set(Calendar.MINUTE, timeMinute);
