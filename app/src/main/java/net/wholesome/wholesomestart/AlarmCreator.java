@@ -13,7 +13,7 @@ import java.util.Calendar;
 import java.util.Random;
 
 public class AlarmCreator {
-    private static int MINUTES_BEFORE_RETRY = 5;
+    private static int MINUTES_BEFORE_RETRY = 1;
     public static String RETRYING_KEY = "retrying";
 
     private static Random random = new Random();
