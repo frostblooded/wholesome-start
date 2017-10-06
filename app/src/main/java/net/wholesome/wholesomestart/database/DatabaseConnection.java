@@ -2,6 +2,7 @@ package net.wholesome.wholesomestart.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -60,5 +61,33 @@ public class DatabaseConnection extends SQLiteOpenHelper {
             GeneralHelpers.Log("Failed getting previous post id to save to DB: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    public boolean postIsPrevious(JSONObject post) {
+        try {
+            String[] projection = {
+                    COLUMN_POST_EXTERNAL_ID
+            };
+
+            String selection = COLUMN_POST_EXTERNAL_ID + " = ?";
+            String[] selectionArgs = { post.getString("id") };
+
+            Cursor cursor = getReadableDatabase().query(
+                    TABLE_NAME,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    null
+            );
+
+            return cursor.getCount() > 0;
+        } catch (JSONException e) {
+            GeneralHelpers.Log("Failed getting post id to check if it is in DB: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }

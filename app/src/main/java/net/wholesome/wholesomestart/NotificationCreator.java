@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 
@@ -55,7 +56,7 @@ public class NotificationCreator {
     }
 
     private static void prepareForNotification(Context context, JSONArray posts) {
-        JSONObject post = NotificationCreator.choosePost(posts);
+        JSONObject post = NotificationCreator.choosePost(context, posts);
         DatabaseConnection.getConnection(context).savePreviousPost(post);
 
         try {
@@ -128,14 +129,33 @@ public class NotificationCreator {
     }
 
     @Nullable
-    private static JSONObject choosePost(JSONArray posts) {
+    private static JSONObject choosePost(Context context, JSONArray posts) {
         try {
-            return posts.getJSONObject(0).getJSONObject("data");
+            GeneralHelpers.Log("Posts count: " + posts.length());
+            DatabaseConnection db = DatabaseConnection.getConnection(context);
+
+            for(int i = 0; i < posts.length(); i++) {
+                JSONObject currentPost = getPostData(posts, i);
+
+                if(!db.postIsPrevious(currentPost)) {
+                    GeneralHelpers.Log("Post " + currentPost.getString("id") + " is NOT previous");
+                    return currentPost;
+                }
+
+                GeneralHelpers.Log("Post " + currentPost.getString("id") + " is previous");
+            }
+
+            GeneralHelpers.Log("All posts are previous. Falling back to first post.");
+            return getPostData(posts, 0);
         } catch (JSONException e) {
             GeneralHelpers.Log("Getting single post from posts array failed: " + e.getMessage());
             e.printStackTrace();
         }
 
         return null;
+    }
+
+    private static JSONObject getPostData(JSONArray posts, int index) throws JSONException {
+        return posts.getJSONObject(index).getJSONObject("data");
     }
 }
