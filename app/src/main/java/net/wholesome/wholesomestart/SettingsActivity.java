@@ -16,6 +16,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         NotificationCreator.createNewNotification(this);
+        AlarmCreator.startAlarm(this, false);
         setContentView(R.layout.activity_settings);
         setUpNameInput();
     }
