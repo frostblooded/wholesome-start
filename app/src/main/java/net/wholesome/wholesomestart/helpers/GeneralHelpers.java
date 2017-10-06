@@ -10,6 +10,7 @@ public class GeneralHelpers {
     private static String SHARED_PREFS_NAME = "wholesome_start";
     private static String TIME_HOUR_SHARED_PREF = "timeHour";
     private static String TIME_MINUTE_SHARED_PREF = "timeMinute";
+    private static String HAS_BEEN_OPENED_SHARED_PREF = "hasBeenOpened";
 
     private static int DEFAULT_TIME_HOUR = 8;
     private static int DEFAULT_TIME_MINUTE = 0;
@@ -40,6 +41,21 @@ public class GeneralHelpers {
     public static String getRandomGreeting() {
         Random random = new Random();
         return GREETINGS[random.nextInt(GREETINGS.length)];
+    }
+
+    public static void saveHasBeenOpened(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(SHARED_PREFS_NAME,
+                Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+
+        editor.putBoolean(HAS_BEEN_OPENED_SHARED_PREF, true);
+        editor.apply();
+    }
+
+    public static boolean getHasBeenOpened(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(SHARED_PREFS_NAME,
+                Context.MODE_PRIVATE);
+        return sp.getBoolean(HAS_BEEN_OPENED_SHARED_PREF, false);
     }
 
     public static void saveTime(Context context, int hour, int minute) {

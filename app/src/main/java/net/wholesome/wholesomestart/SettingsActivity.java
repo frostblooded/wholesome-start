@@ -17,7 +17,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        if(!AlarmCreator.alarmIsStarted(this)) {
+        if(!GeneralHelpers.getHasBeenOpened(this)) {
             GeneralHelpers.Log("Alarm isn't started yet. Staring it now.");
             AlarmCreator.startAlarm(this);
         }

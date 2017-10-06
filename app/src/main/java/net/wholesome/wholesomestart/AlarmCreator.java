@@ -10,19 +10,13 @@ import net.wholesome.wholesomestart.helpers.GeneralHelpers;
 import net.wholesome.wholesomestart.receivers.AlarmReceiver;
 
 import java.util.Calendar;
+import java.util.Random;
 
 public class AlarmCreator {
     private static int MINUTES_BEFORE_RETRY = 5;
     public static String RETRYING_KEY = "retrying";
 
-    // This method uses the fact the the pending intent will be null
-    // if the FLAG_NO_CREATE flag is set.
-    public static boolean alarmIsStarted(Context context) {
-        Intent intent = new Intent(context, AlarmReceiver.class);
-        PendingIntent pendingIntent = (PendingIntent.getBroadcast(context, 0,
-                intent, PendingIntent.FLAG_NO_CREATE));
-        return pendingIntent != null;
-    }
+    private static Random random = new Random();
 
     public static void startAlarm(Context context) {
         startAlarm(context, false);
@@ -32,6 +26,8 @@ public class AlarmCreator {
     // This may happen if the alarm has already triggered, but there was no internet connection.
     // In that case, the alarm is going to be tried again after a short delay.
     public static void startAlarm(Context context, boolean retrying) {
+        GeneralHelpers.saveHasBeenOpened(context);
+
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
 
@@ -39,7 +35,10 @@ public class AlarmCreator {
         bundle.putBoolean(RETRYING_KEY, retrying);
         intent.putExtras(bundle);
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        // Use random request code so that pending intent is
+        // recognised as unique and extras are passed correctly
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Calendar calendar = getTimeForAlarm(context, retrying);
         GeneralHelpers.Log("Setting alarm for " + calendar.getTime());
