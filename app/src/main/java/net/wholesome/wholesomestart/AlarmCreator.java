@@ -40,7 +40,7 @@ public class AlarmCreator {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 
         Calendar calendar = getTimeForAlarm(timeHour, timeMinute, retrying);
-        GeneralHelpers.Log("Setting alarm for " + calendar.toString());
+        GeneralHelpers.Log("Setting alarm for " + calendar.getTime());
         am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, pendingIntent);
     }

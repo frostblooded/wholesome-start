@@ -41,7 +41,8 @@ public class NotificationCreator {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 try {
-                    JSONObject jsonResponse = new JSONObject(response.body().string());
+                    String responseString = response.body().string();
+                    JSONObject jsonResponse = new JSONObject(responseString);
                     JSONObject responseData = jsonResponse.getJSONObject("data");
                     NotificationCreator.prepareForNotification(context, responseData.getJSONArray("children"));
                 } catch (JSONException e) {
@@ -56,15 +57,21 @@ public class NotificationCreator {
         JSONObject post = NotificationCreator.choosePost(posts);
 
         try {
+            GeneralHelpers.Log("Chosen post: " + post.toString(2));
+        } catch (JSONException e) {
+            GeneralHelpers.Log("Error logging chosen post.");
+            e.printStackTrace();
+        }
+
+        try {
             String postTitle = post.getString("title");
             String url = post.getString("permalink");
             String fullUrl = REDDIT_BASE_URL + url;
             String imgUrl = post.getString("thumbnail");
 
-            GeneralHelpers.Log("Chosen post: " + postTitle);
             NotificationCreator.getThumbnail(context, postTitle, fullUrl, imgUrl);
         } catch (JSONException e) {
-            GeneralHelpers.Log("Failed to get title of post: " + e.getMessage());
+            GeneralHelpers.Log("Failed to parse chosen post: " + e.getMessage());
             e.printStackTrace();
         }
     }
