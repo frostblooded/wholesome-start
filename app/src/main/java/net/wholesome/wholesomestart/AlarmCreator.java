@@ -16,8 +16,6 @@ public class AlarmCreator {
     private static int MINUTES_BEFORE_RETRY = 1;
     public static String RETRYING_KEY = "retrying";
 
-    private static Random random = new Random();
-
     public static void startAlarm(Context context) {
         startAlarm(context, false);
     }

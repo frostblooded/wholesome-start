@@ -56,7 +56,6 @@ public class DatabaseConnection extends SQLiteOpenHelper {
             String postId = post.getString("id");
             values.put(COLUMN_POST_EXTERNAL_ID, postId);
             getWritableDatabase().insert(TABLE_NAME, null, values);
-            GeneralHelpers.Log("Saved previous post " + postId);
         } catch (JSONException e) {
             GeneralHelpers.Log("Failed getting previous post id to save to DB: " + e.getMessage());
             e.printStackTrace();

@@ -16,7 +16,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         NotificationCreator.createNewNotification(context);
 
         boolean alarmIsRetrying = intent.getBooleanExtra(AlarmCreator.RETRYING_KEY, false);
-        GeneralHelpers.Log("Alarm is retrying: " + alarmIsRetrying);
 
         // If alarm was retrying, set the next one for the right time
         if(alarmIsRetrying) {

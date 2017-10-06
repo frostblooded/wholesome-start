@@ -60,17 +60,11 @@ public class NotificationCreator {
         DatabaseConnection.getConnection(context).savePreviousPost(post);
 
         try {
-            GeneralHelpers.Log("Chosen post: " + post.toString(2));
-        } catch (JSONException e) {
-            GeneralHelpers.Log("Error logging chosen post.");
-            e.printStackTrace();
-        }
-
-        try {
             String postTitle = post.getString("title");
             String url = post.getString("permalink");
             String fullUrl = REDDIT_BASE_URL + url;
             String imgUrl = post.getString("thumbnail");
+            GeneralHelpers.Log("Chosen post: " + post.getString("id"));
 
             NotificationCreator.getThumbnail(context, postTitle, fullUrl, imgUrl);
         } catch (JSONException e) {
@@ -114,26 +108,23 @@ public class NotificationCreator {
         NotificationManager notificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
+
+        GeneralHelpers.Log("Created notification successfully!");
     }
 
     @Nullable
     private static JSONObject choosePost(Context context, JSONArray posts) {
         try {
-            GeneralHelpers.Log("Posts count: " + posts.length());
             DatabaseConnection db = DatabaseConnection.getConnection(context);
 
             for(int i = 0; i < posts.length(); i++) {
                 JSONObject currentPost = getPostData(posts, i);
 
                 if(!db.postIsPrevious(currentPost)) {
-                    GeneralHelpers.Log("Post " + currentPost.getString("id") + " is NOT previous");
                     return currentPost;
                 }
-
-                GeneralHelpers.Log("Post " + currentPost.getString("id") + " is previous");
             }
 
-            GeneralHelpers.Log("All posts are previous. Falling back to first post.");
             return getPostData(posts, 0);
         } catch (JSONException e) {
             GeneralHelpers.Log("Getting single post from posts array failed: " + e.getMessage());
