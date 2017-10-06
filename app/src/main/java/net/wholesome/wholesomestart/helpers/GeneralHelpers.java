@@ -10,6 +10,9 @@ public class GeneralHelpers {
     private static String TIME_HOUR_SHARED_PREF = "timeHour";
     private static String TIME_MINUTE_SHARED_PREF = "timeMinute";
 
+    private static int DEFAULT_TIME_HOUR = 8;
+    private static int DEFAULT_TIME_MINUTE = 0;
+
     private static String LOG_TAG = "WholesomeStart";
 
     public static void saveTime(Context context, int hour, int minute) {
@@ -40,13 +43,13 @@ public class GeneralHelpers {
     public static int getTimeHour(Context context) {
         SharedPreferences sp = context.getSharedPreferences(SHARED_PREFS_NAME,
                 Context.MODE_PRIVATE);
-        return sp.getInt(TIME_HOUR_SHARED_PREF, 0);
+        return sp.getInt(TIME_HOUR_SHARED_PREF, DEFAULT_TIME_HOUR);
     }
 
     public static int getTimeMinute(Context context) {
         SharedPreferences sp = context.getSharedPreferences(SHARED_PREFS_NAME,
                 Context.MODE_PRIVATE);
-        return sp.getInt(TIME_MINUTE_SHARED_PREF, 0);
+        return sp.getInt(TIME_MINUTE_SHARED_PREF, DEFAULT_TIME_MINUTE);
     }
 
     public static void Log(String message) {
