@@ -15,28 +15,25 @@ public class GeneralHelpers {
     private static int DEFAULT_TIME_MINUTE = 0;
 
     private static String[] GREETINGS = {
-            "Have a great day!",
             "ʕʘ‿ʘʔ You're amazing!",
             "You're the best friend!",
             "Be the best you!",
             "You go, gurl!",
-            "Love today!",
-            "(ﾟヮﾟ) Appreciate the day!",
+            "(ﾟヮﾟ) Appreciate today!",
             "Be a great person!",
             "\u2764 I love you! \u2764", // <3 <3 <3
             "Your friends love you!",
             "Go love yourself!",
             "I believe in you!",
-            "◕ ◡ ◕ You can do it!",
+            "◕ ◡ ◕ You can do anything!",
             "Never give up!",
-            "(づ｡◕‿‿◕｡)づ *virtual hug*",
+            "(づ｡◕‿‿◕｡)づ *hug*",
             "Believe in yourself!",
-            "ಠ_ರೃ You can do anything!",
             "♥╭╮♥ You sexy beast!",
             "Be strong!",
             "Slash - Promise",
-            "(｡･_･｡) You look cute today.",
-            "Do your best!"
+            "(｡･_･｡) You're cute...",
+            "Do your best!",
     };
 
     private static String LOG_TAG = "WholesomeStart";
