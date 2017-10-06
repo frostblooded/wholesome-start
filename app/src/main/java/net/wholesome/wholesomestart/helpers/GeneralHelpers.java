@@ -22,7 +22,6 @@ public class GeneralHelpers {
             "(ﾟヮﾟ) Appreciate today!",
             "Be a great person!",
             "\u2764 I love you! \u2764", // <3 <3 <3
-            "Your friends love you!",
             "Go love yourself!",
             "I believe in you!",
             "◕ ◡ ◕ You can do anything!",
@@ -33,7 +32,7 @@ public class GeneralHelpers {
             "Be strong!",
             "Slash - Promise",
             "(｡･_･｡) You're cute...",
-            "Do your best!",
+            "Dance like no one's watching."
     };
 
     private static String LOG_TAG = "WholesomeStart";
