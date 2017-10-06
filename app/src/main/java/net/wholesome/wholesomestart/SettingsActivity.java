@@ -19,12 +19,6 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
     }
 
-    @Override
-    protected void onStart() {
-        NotificationCreator.createNewNotification(this);
-        super.onStart();
-    }
-
     public void showTimePickerDialog(View v) {
         DialogFragment timePickerFragment = new TimePickerFragment();
         timePickerFragment.show(getSupportFragmentManager(), "timePicker");
