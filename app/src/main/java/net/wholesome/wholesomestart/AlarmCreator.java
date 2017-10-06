@@ -15,6 +15,15 @@ public class AlarmCreator {
     private static int MINUTES_BEFORE_RETRY = 5;
     public static String RETRYING_KEY = "retrying";
 
+    // This method uses the fact the the pending intent will be null
+    // if the FLAG_NO_CREATE flag is set.
+    public static boolean alarmIsStarted(Context context) {
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        PendingIntent pendingIntent = (PendingIntent.getBroadcast(context, 0,
+                intent, PendingIntent.FLAG_NO_CREATE));
+        return pendingIntent != null;
+    }
+
     public static void startAlarm(Context context) {
         startAlarm(context, false);
     }

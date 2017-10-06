@@ -15,8 +15,12 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AlarmCreator.startAlarm(this, false);
         setContentView(R.layout.activity_settings);
+
+        if(!AlarmCreator.alarmIsStarted(this)) {
+            GeneralHelpers.Log("Alarm isn't started yet. Staring it now.");
+            AlarmCreator.startAlarm(this);
+        }
     }
 
     public void showTimePickerDialog(View v) {
