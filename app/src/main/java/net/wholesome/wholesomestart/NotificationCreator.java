@@ -1,6 +1,5 @@
 package net.wholesome.wholesomestart;
 
-import android.accounts.NetworkErrorException;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -8,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Debug;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 
@@ -21,13 +19,12 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.UnknownHostException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-class NotificationCreator {
+public class NotificationCreator {
     private static String WHOLESOME_TOP_DAILY_URL = "https://nm.reddit.com/r/wholesomememes/top.json?sort=top&t=day";
     private static String REDDIT_BASE_URL = "https://www.reddit.com";
     private static int NOTIFICATION_ID = 1;

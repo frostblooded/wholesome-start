@@ -1,15 +1,8 @@
 package net.wholesome.wholesomestart.helpers;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
-
-import net.wholesome.wholesomestart.AlarmReceiver;
-
-import java.util.Calendar;
 
 public class GeneralHelpers {
     private static String SHARED_PREFS_NAME = "wholesome_start";

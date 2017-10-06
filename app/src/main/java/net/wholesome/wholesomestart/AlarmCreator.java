@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import net.wholesome.wholesomestart.helpers.GeneralHelpers;
+import net.wholesome.wholesomestart.receivers.AlarmReceiver;
 
 import java.util.Calendar;
 
