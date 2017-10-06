@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import java.util.Random;
+
 public class GeneralHelpers {
     private static String SHARED_PREFS_NAME = "wholesome_start";
     private static String USER_NAME_SHARED_PREF = "userName";
@@ -13,7 +15,26 @@ public class GeneralHelpers {
     private static int DEFAULT_TIME_HOUR = 8;
     private static int DEFAULT_TIME_MINUTE = 0;
 
+    private static String[] GREETINGS = {
+            "Have a great day!",
+            "I love you!",
+            "You're amazing!",
+            "You're the best!",
+            "Be the best you!",
+            "You go, girl!",
+            "Be kind!",
+            "Love today!",
+            "Appreciate the day!",
+            "Forgive!",
+            "Be calm!"
+    };
+
     private static String LOG_TAG = "WholesomeStart";
+
+    public static String getRandomGreeting() {
+        Random random = new Random();
+        return GREETINGS[random.nextInt(GREETINGS.length)];
+    }
 
     public static void saveTime(Context context, int hour, int minute) {
         SharedPreferences sp = context.getSharedPreferences(SHARED_PREFS_NAME,

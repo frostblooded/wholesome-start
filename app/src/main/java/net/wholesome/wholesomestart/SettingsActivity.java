@@ -15,10 +15,15 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        NotificationCreator.createNewNotification(this);
         AlarmCreator.startAlarm(this, false);
         setContentView(R.layout.activity_settings);
         setUpNameInput();
+    }
+
+    @Override
+    protected void onStart() {
+        NotificationCreator.createNewNotification(this);
+        super.onStart();
     }
 
     private void setUpNameInput() {
