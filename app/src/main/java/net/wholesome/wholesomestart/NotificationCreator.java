@@ -27,7 +27,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class NotificationCreator {
-    private static String WHOLESOME_TOP_DAILY_URL = "https://nm.reddit.com/r/wholesomememes/top.json?sort=top&t=day";
+    private static String WHOLESOME_TOP_DAILY_URL = "https://www.reddit.com/r/wholesomememes/top.json?sort=top&t=week";
     private static String REDDIT_BASE_URL = "https://www.reddit.com";
     private static int NOTIFICATION_ID = 1;
     private static int PENDING_INTENT_ID = 0;
