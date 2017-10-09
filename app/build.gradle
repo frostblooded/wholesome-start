@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "net.wholesome.wholesomestart"
         minSdkVersion 15
-        targetSdkVersion 20
+        targetSdkVersion 25
         versionCode 6
         versionName "2.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

@@ -91,36 +91,6 @@ public class GeneralHelpers {
     }
 
     public static void Log(String message) {
-        Log(message, false);
-    }
-
-    public static void Log(String message, boolean dontWriteToFile) {
         Log.i(LOG_TAG, message);
-
-        if(dontWriteToFile)
-            return;
-
-        File logFile = new File(Environment.getExternalStorageDirectory(), LOG_FILE);
-
-        if(!logFile.exists()) {
-            try {
-                logFile.createNewFile();
-            } catch (IOException e) {
-                Log("Failed creating log file: " + e.getMessage(), true);
-                e.printStackTrace();
-            }
-        }
-
-        try {
-            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-
-            BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
-            buf.append(timestamp + ": " + message);
-            buf.newLine();
-            buf.close();
-        } catch (IOException e) {
-            Log("Failed writing to file: " + e.getMessage(), true);
-            e.printStackTrace();
-        }
     }
 }
