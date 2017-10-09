@@ -2,16 +2,8 @@ package net.wholesome.wholesomestart.helpers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Environment;
 import android.util.Log;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Random;
 
 public class GeneralHelpers {
@@ -22,8 +14,6 @@ public class GeneralHelpers {
 
     private static int DEFAULT_TIME_HOUR = 8;
     private static int DEFAULT_TIME_MINUTE = 0;
-
-    private static String LOG_FILE = "wholesomestart.log";
 
     private static String[] GREETINGS = {
             "ʕʘ‿ʘʔ You're amazing!",
